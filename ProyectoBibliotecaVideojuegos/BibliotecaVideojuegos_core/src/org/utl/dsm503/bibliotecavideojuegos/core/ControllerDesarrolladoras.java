@@ -4,9 +4,8 @@
  */
 package org.utl.dsm503.bibliotecavideojuegos.core;
 
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -16,25 +15,24 @@ import org.bson.Document;
  *
  * @author Lenovo
  */
-public class ControllerVideojuegos {
-
-    public void insertarVideojuego(String datosVideojuego) {
+public class ControllerDesarrolladoras {
+    public void insertarDesarrolladora(String datosDesarrolladora) {
         MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
         MongoDatabase database = mongoClient.getDatabase("biblioteca_videojuegos");
-        MongoCollection<Document> collection = database.getCollection("videojuegos");
-        Document videojuego = Document.parse(datosVideojuego);
-        collection.insertOne(videojuego);
+        MongoCollection<Document> collection = database.getCollection("desarrolladoras");
+        Document desarrolladora = Document.parse(datosDesarrolladora);
+        collection.insertOne(desarrolladora);
         mongoClient.close();
     }
 
-    public void cargarVideojuegos() {
+    public void cargarDesarrolladoras() {
         try (MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017")) {
             MongoDatabase database = mongoClient.getDatabase("biblioteca_videojuegos");
-            MongoCollection<Document> collection = database.getCollection("videojuegos");
+            MongoCollection<Document> collection = database.getCollection("desarrolladoras");
             MongoCursor<Document> cursor = collection.find().iterator();
             while (cursor.hasNext()) {
                 Document doc = cursor.next();
-                System.out.println(doc.toJson());
+                System.out.println(doc);
             }
         }
     }
@@ -48,5 +46,4 @@ public class ControllerVideojuegos {
             collection.updateOne(filter, update);
         }
     }
-
 }
